@@ -8,12 +8,13 @@
 % z3=--z2, z3^2 =-------6-7-8-9
 % y4=--y3, y3^2 =-----------5-6-7-8-9
 % z4=--z3, z3^2 =-----------5-6-7-8-9
+% find y
 
 % find y1
 jj=0;
 for ii=1:99
     a=(ii*10+3);
-    b=(ii*10+3)^2;
+    b=a^2;
     str=num2str(b);
     if(str(end-2)=='8')
         jj=jj+1;
@@ -25,7 +26,7 @@ end
 jj=0;
 for ii=1:99
     a=(ii*10+7);
-    b=(ii*10+7)^2;
+    b=a^2;
     str=num2str(b);
     if(str(end-2)=='8')
         jj=jj+1;
@@ -38,7 +39,7 @@ for kk=1:size(y1,2)
     jj=0;
     for ii=1:99
         a=(ii*1000+y1(kk));
-        b=(ii*1000+y1(kk))^2;
+        b=a^2;
         str=num2str(b);
         if(str(end-4)=='7')
             jj=jj+1;
@@ -52,7 +53,7 @@ for kk=1:size(z1,2)
     jj=0;
     for ii=1:99
         a=(ii*1000+z1(kk));
-        b=(ii*1000+z1(kk))^2;
+        b=a^2;
         str=num2str(b);
         if(str(end-4)=='7')
             jj=jj+1;
@@ -67,8 +68,8 @@ for kk=1:size(y2,1)
     for ll=1:size(y2,2)
         jj=0;
         for ii=1:99
-            a=(ii*100000+y2(kk,ll));
-            b=(ii*100000+y2(kk,ll))^2;
+            a=(ii*10^5+y2(kk,ll));
+            b=a^2;
             str=num2str(b);
             if(str(end-6)=='6')
                 jj=jj+1;
@@ -83,8 +84,8 @@ for kk=1:size(z2,1)
     for ll=1:size(z2,2)
         jj=0;
         for ii=1:99
-            a=(ii*100000+z2(kk,ll));
-            b=(ii*100000+z2(kk,ll))^2;
+            a=(ii*10^5+z2(kk,ll));
+            b=a^2;
             str=num2str(b);
             if(str(end-6)=='6')
                 jj=jj+1;
@@ -94,16 +95,20 @@ for kk=1:size(z2,1)
     end
 end
 
+
 % find y4
 for kk=1:size(y3,1)
     for ll=1:size(y3,2)
         for mm=1:size(y3,3)
             jj=0;
             for ii=1:99
-                a=(ii*10000000+y3(kk,ll,mm));
-                b=(ii*10000000+y3(kk,ll,mm))^2;
-                str=num2str(b);
-                if(str(end-8)=='5')
+                if y3(kk,ll,mm)==0
+                    continue
+                end
+                a=(ii*10^7+y3(kk,ll,mm));
+                b=a^2;
+                str=num2str(mod(b,10^9)-mod(b,10^8));
+                if(str(1)=='5')
                     jj=jj+1;
                     y4(kk,ll,mm,jj)=a;
                 end
@@ -112,4 +117,87 @@ for kk=1:size(y3,1)
     end
 end
 
-% 有0的會有問題，if...
+% find z4
+for kk=1:size(z3,1)
+    for ll=1:size(z3,2)
+        for mm=1:size(z3,3)
+            jj=0;
+            for ii=1:99
+                if z3(kk,ll,mm)==0
+                    continue
+                end
+                a=(ii*10^7+z3(kk,ll,mm));
+                b=a^2;
+                str=num2str(mod(b,10^9)-mod(b,10^8));
+                if(str(1)=='5')
+                    jj=jj+1;
+                    z4(kk,ll,mm,jj)=a;
+                end
+            end
+        end
+    end
+end
+
+% find y part1
+jj=0;
+for kk=1:size(y4,1)
+    for ll=1:size(y4,2)
+        for mm=1:size(y4,3)
+            for nn=1:size(y4,4)
+                a=y4(kk,ll,mm,nn);
+                b=a^2;
+                if(a==0)
+                    continue
+                end
+                if(b < 2*10^16 && b > 10^16)
+                    str1=num2str(mod(b,10^11)-mod(b,10^10));
+                    if(str1(1)=='4')
+                        str2=num2str(mod(b,10^13)-mod(b,10^12));
+                        if(str2(1)=='3')
+                            str3=num2str(mod(b,10^15)-mod(b,10^14));
+                            if(str3(1)=='2')
+                                jj=jj+1;
+                                y(jj)=a;
+                            end
+                        end
+                    end
+                    
+                end                              
+            end
+        end
+    end
+end
+
+% find y part2
+for kk=1:size(z4,1)
+    for ll=1:size(z4,2)
+        for mm=1:size(z4,3)
+            for nn=1:size(z4,4)
+                a=z4(kk,ll,mm,nn);
+                b=a^2;
+                if(a==0)
+                    continue
+                end
+                if(b < 2*10^16 && b > 10^16)
+                    str1=num2str(mod(b,10^11)-mod(b,10^10));
+                    if(str1(1)=='4')
+                        str2=num2str(mod(b,10^13)-mod(b,10^12));
+                        if(str2(1)=='3')
+                            str3=num2str(mod(b,10^15)-mod(b,10^14));
+                            if(str3(1)=='2')
+                                jj=jj+1;
+                                y(jj)=a;
+                            end
+                        end
+                    end
+                    
+                end                              
+            end
+        end
+    end
+end
+
+x=10.*y
+z=x^2
+% 用眼睛看，可以確認到-----8
+% 解釋machine epsilon(10^(-16))，用數學去驗--9-0
