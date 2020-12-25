@@ -1,3 +1,13 @@
+% 題目:請找到一個正數使得此數字的平方長相如下:
+% 1_2_3_4_5_6_7_8_9_0
+% 其中每個 _ 都是一個數字。
+
+% 答案:
+% x=1389019170
+% x^2=1929374254627488900
+
+
+% 想法:(詳情請見README)
 % x=____y___0, x^2=______y^2_______00
 % y=________, y^2=1_2_3_4_5_6_7_8_9
 % y1=--3, y1^2 =---8-9
@@ -10,6 +20,7 @@
 % z4=--z3, z3^2 =-----------5-6-7-8-9
 % find y
 
+%%
 % find y1
 jj=0;
 for ii=1:99
@@ -34,6 +45,8 @@ for ii=1:99
     end
 end
 
+
+%%
 % find y2
 for kk=1:size(y1,2)
     jj=0;
@@ -63,6 +76,8 @@ for kk=1:size(z1,2)
 end
 % 0就是代表沒有找到
 
+
+%%
 % find y3
 for kk=1:size(y2,1)
     for ll=1:size(y2,2)
@@ -96,6 +111,7 @@ for kk=1:size(z2,1)
 end
 
 
+%%
 % find y4
 for kk=1:size(y3,1)
     for ll=1:size(y3,2)
@@ -138,7 +154,9 @@ for kk=1:size(z3,1)
     end
 end
 
-% find y part1
+
+%%
+% find y from y4
 jj=0;
 for kk=1:size(y4,1)
     for ll=1:size(y4,2)
@@ -161,14 +179,13 @@ for kk=1:size(y4,1)
                             end
                         end
                     end
-                    
                 end                              
             end
         end
     end
 end
 
-% find y part2
+% find y from z4
 for kk=1:size(z4,1)
     for ll=1:size(z4,2)
         for mm=1:size(z4,3)
@@ -190,14 +207,15 @@ for kk=1:size(z4,1)
                             end
                         end
                     end
-                    
                 end                              
             end
         end
     end
 end
 
-x=10.*y
-z=x^2
-% 用眼睛看，可以確認到-----8
-% 解釋machine epsilon(10^(-16))，用數學去驗--9-0
+
+format long
+x=10.*y         % x=1.389019170000000e+09
+z=x^2           % z=1.929374254627489e+18
+% 用眼睛看，可以確認到1_2_3_4_5_6_7_8
+% 因為machine epsilon=10^(-16))，所以-9-0用數學去驗
